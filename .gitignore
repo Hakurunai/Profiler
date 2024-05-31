@@ -381,6 +381,8 @@ FodyWeavers.xsd
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
+/ReadMeImages
+
 !.vscode/extensions.json
 *.code-workspace
 
