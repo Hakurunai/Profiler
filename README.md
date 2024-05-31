@@ -1,5 +1,6 @@
 # Profiler
 My attempt to create a continuous profiler.
+We are now capable to determine the number of time each function was called
 
 ![TimerEntryClass](https://github.com/Hakurunai/Profiler/assets/167714064/f3d219b6-feb3-4bf7-a6d4-f76df51777ca)
 ![ProfilerClass](https://github.com/Hakurunai/Profiler/assets/167714064/cf8f144a-b657-42ea-ba8a-5ced6c5cb35e)
