@@ -1,4 +1,4 @@
 # Profiler
 My attempt to create a continuous profiler. 
-![FirstMacroDefinitions](https://github.com/Hakurunai/Profiler/assets/167714064/f4f1a6d7-bddf-418b-a98c-457bcc4d66a9)
-![FirstMacroUsage](https://github.com/Hakurunai/Profiler/assets/167714064/734b5b5c-77ee-4a61-a0f4-b75ad06a64e7)
+![FirstTimerClassDefinitions](https://github.com/Hakurunai/Profiler/assets/167714064/2f96cc70-6fa1-43cd-b61e-c20b5048ff69)
+![FirstTimerClassUsage](https://github.com/Hakurunai/Profiler/assets/167714064/dc3eb5fe-3fd9-45a2-a774-52395ad034db)
