@@ -21,8 +21,14 @@
     <ClCompile Include="Sources\Profiler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Timer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Sources\Timer.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
     <ClInclude Include="Sources\Profiler.h">
       <Filter>Source Files</Filter>
     </ClInclude>
