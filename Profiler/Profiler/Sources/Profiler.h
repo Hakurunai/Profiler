@@ -4,18 +4,23 @@
 #include <iostream>
 #include <chrono>
 
-#define START_TIMER auto start = std::chrono::high_resolution_clock::now();
+class Timer
+{
+public :
+	Timer(const char* name) : mName(name) 
+	{
+		mStart = std::chrono::high_resolution_clock::now();
+	}
 
-// do while loop -> create a scope when expanded, so all variables in it are locale
-// there is something about semicolon too, it appears that a do-while loop can protect
-//from syntax error (forget to add a semicolon after invocation of the macro)
-#define STOP_TIMER(name) \
-	do\
-	{\
-		auto end = std::chrono::high_resolution_clock::now();\
-		auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);\
-		std::cout << name << " : " << duration.count() << "ms\n";\
-	}\
-	while(false);
+	~Timer()
+	{
+		auto end = std::chrono::high_resolution_clock::now();
+		auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - mStart);
+		std::cout << mName << " : " << duration.count() << "ms\n";
+	}
+protected :
+	const char* mName;
+	std::chrono::high_resolution_clock::time_point mStart;
+};
 
 #endif // PROFILER__H
