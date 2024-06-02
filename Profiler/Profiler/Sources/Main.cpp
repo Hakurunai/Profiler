@@ -3,7 +3,7 @@
 void func1()
 {
     auto t = Profiler::Instance().StartTimer("func1");
-    for (int i = 0; i < 100'000; ++i) {}
+    for (int i = 0; i < 1'000'000'0; ++i) {}
 }
 
 void func2()
@@ -17,12 +17,16 @@ int main()
     int i = 0;
     while (i < 3)
     {
-        func1();
-        func2();
-        func1();
-        func2();
-        func2();
-        ++i;
+        {
+            auto t = Profiler::Instance().StartTimer("main");
+
+            func1();
+            func2();
+            func1();
+            func2();
+            func2();
+            ++i;
+        }
         Profiler::Instance().StopFrame();
     }
 }

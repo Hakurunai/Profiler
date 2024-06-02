@@ -21,11 +21,15 @@
   <ItemGroup>
     <ClCompile Include="Sources\Main.cpp" />
     <ClCompile Include="Sources\Profiler.cpp" />
+    <ClCompile Include="Sources\ProfilerDataNode.cpp" />
     <ClCompile Include="Sources\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Sources\Definitions.h" />
     <ClInclude Include="Sources\Profiler.h" />
+    <ClInclude Include="Sources\ProfilerDataNode.h" />
     <ClInclude Include="Sources\Timer.h" />
+    <ClInclude Include="Sources\TimerEntry.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

@@ -5,19 +5,24 @@
 #include <chrono>
 #include <string>
 
+#include "Definitions.h"
+
+struct SProfilerDataNode;
 
 class Timer
 {
 public :
-	Timer(const char* name) : mName(name) 
+	Timer(const char* name, SProfilerDataNode& target) : mName(name), mTarget(target)
 	{
 		mStart = std::chrono::high_resolution_clock::now();
 	}
 
 	~Timer();
 
-	__forceinline const std::string Name() const { return std::string(mName); }
-	__forceinline const size_t Duration() const { return mDuration; }
+	FORCEINLINE const std::string Name() const { return std::string(mName); }
+	FORCEINLINE const size_t Duration() const { return mDuration; }
+
+	SProfilerDataNode& mTarget;
 
 protected :
 	const char* mName;

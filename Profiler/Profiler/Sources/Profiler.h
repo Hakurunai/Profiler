@@ -4,26 +4,11 @@
 #include "Timer.h"
 #include <map>
 #include <string>
+#include "TimerEntry.h"
+#include "ProfilerDataNode.h"
 
 class Profiler
 {
-private:
-	struct TimerEntry
-	{
-		size_t count() const { return mCount; }
-		size_t time() const { return mTime; }
-
-		void AddTime(const size_t time)
-		{
-			++mCount;
-			mTime += time;
-		}
-
-	private:
-		size_t mCount{ 0 };
-		size_t mTime{ 0 };
-	};
-
 public:
 
 	Profiler(const Profiler& other) = delete;
@@ -35,39 +20,88 @@ public:
 		return instance;
 	}
 
-	Timer StartTimer(const char* name) { return Timer(name); }
+	std::unique_ptr<Timer> StartTimer(const char* name) 
+	{
+		mCurrentNode = mCurrentNode->AddChildNode(name);
+		mNodesCallStack.push_back(mCurrentNode);
+		return std::make_unique<Timer>(name, *mCurrentNode); 
+	}
 	
-	void AddTimerData(const Timer& timer) { mTimersMap[timer.Name()].AddTime(timer.Duration()); };
+	void TimerEndDelegate()
+	{
+		//a timer can still exist after StopFrame is called, so we avoid an error (he can still access his node)
+		if (mNodesCallStack.size() <= 1) return;
+		mNodesCallStack.pop_back();
+		mCurrentNode = mCurrentNode->GetParent();
+	};
 
-	/// <summary>
-	/// Use to determnine 
-	/// </summary>
 	void StopFrame() 
 	{
 		++mFrameNumber;
-		PrintData();
-		//TODO : check that clear keep the previous allocated memory -> some functions will be called each frame
-		mTimersMap.clear(); 
+
+		//TODO : we store datas from one frame then we start another tree node -> we could potentially write our data on a file and clear it
+		mFrameData.push_back(mHeadNode);
+		mHeadNode = SProfilerDataNode::CreateFirstNode("Frame " + std::to_string(mFrameNumber));
+		mCurrentNode = mHeadNode;
+		mNodesCallStack.clear();
+		mNodesCallStack.push_back(mHeadNode);
 	}
 
 private :
 
-	size_t mFrameNumber; //assuming 120 fps : max(size_t) / (120 fps * 60 s/min * 60 min/h * 24 h/day * 365 day/year) = 4.8 * 10^9 years to be a max value and wrap around self
-	std::map<std::string, TimerEntry> mTimersMap;
-	Profiler() = default;
-	~Profiler() = default;
+	//assuming 120 fps : max(size_t) / (120 fps * 60 s/min * 60 min/h * 24 h/day * 365 day/year) = 4.8 * 10^9 years to be at max value and wrap around self
+	size_t mFrameNumber{ 1 };
 
-	void PrintData()
+	SProfilerDataNode* mHeadNode{ nullptr };
+	SProfilerDataNode* mCurrentNode{ nullptr };
+	std::vector<SProfilerDataNode*> mNodesCallStack;
+	std::vector<SProfilerDataNode*> mFrameData;
+
+	Profiler() 
 	{
-		std::cout << "Frame number " << mFrameNumber << " :\n";
-		for (const auto& data : mTimersMap)
+		mHeadNode = SProfilerDataNode::CreateFirstNode("Frame 1");
+		mCurrentNode = mHeadNode;
+		mNodesCallStack.reserve(8);
+		mNodesCallStack.push_back(mHeadNode);
+		mFrameData.reserve(1000);
+	};
+
+	~Profiler() 
+	{
+		PrintData();
+		int index = mFrameData.size() - 1;
+		while (index > 0)
 		{
-			std::cout << data.first << " was called " << data.second.count()
-				<< " times for " << data.second.time() << " us in total\n";
+			delete mFrameData[index];
+			--index;
 		}
-		std::cout << std::endl;
+		mFrameData.clear();
+
+		index = mNodesCallStack.size() - 1;
+		while (index > 0)
+		{
+			delete mNodesCallStack[index];
+			--index;
+		}
+		mNodesCallStack.clear();
+	};
+
+	void PrintData() const
+	{
+		if (mFrameData.size() <= 0) return;
+
+		std::cout << "Frame number : " << mFrameNumber - 1 << "\n";
+		for (const auto& data : mFrameData)
+		{
+			data->PrintData();
+			std::cout << std::endl;
+		}
 	}
 };
 
+/*
+SHA256 pour encoder les noms des fonctions, histoire d'avoir des identifiants plus rapide à comparer ?
+Créer un outil pour visualiser les données sous forme de flame graph
+*/
 
 #endif // PROFILER__H
