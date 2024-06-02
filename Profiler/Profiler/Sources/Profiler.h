@@ -39,18 +39,34 @@ public:
 	
 	void AddTimerData(const Timer& timer) { mTimersMap[timer.Name()].AddTime(timer.Duration()); };
 
+	/// <summary>
+	/// Use to determnine 
+	/// </summary>
+	void StopFrame() 
+	{
+		++mFrameNumber;
+		PrintData();
+		//TODO : check that clear keep the previous allocated memory -> some functions will be called each frame
+		mTimersMap.clear(); 
+	}
+
 private :
 
+	size_t mFrameNumber; //assuming 120 fps : max(size_t) / (120 fps * 60 s/min * 60 min/h * 24 h/day * 365 day/year) = 4.8 * 10^9 years to be a max value and wrap around self
 	std::map<std::string, TimerEntry> mTimersMap;
 	Profiler() = default;
-	~Profiler() 
+	~Profiler() = default;
+
+	void PrintData()
 	{
-		for(const auto & data : mTimersMap)
+		std::cout << "Frame number " << mFrameNumber << " :\n";
+		for (const auto& data : mTimersMap)
 		{
-			std::cout << data.first << " was called " << data.second.count() 
-						<< " times for " << data.second.time() << " us in total\n";
+			std::cout << data.first << " was called " << data.second.count()
+				<< " times for " << data.second.time() << " us in total\n";
 		}
-	};
+		std::cout << std::endl;
+	}
 };
 
 

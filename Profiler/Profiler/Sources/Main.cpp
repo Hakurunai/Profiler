@@ -14,9 +14,15 @@ void func2()
 
 int main()
 {
-    func1();
-    func2();
-    func1();
-    func2();
-    func2();
+    int i = 0;
+    while (i < 3)
+    {
+        func1();
+        func2();
+        func1();
+        func2();
+        func2();
+        ++i;
+        Profiler::Instance().StopFrame();
+    }
 }
