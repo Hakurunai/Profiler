@@ -101,7 +101,9 @@ private :
 
 /*
 SHA256 pour encoder les noms des fonctions, histoire d'avoir des identifiants plus rapide à comparer ?
+Enregistrer les données dans un fichier
 Créer un outil pour visualiser les données sous forme de flame graph
+Ajouter une mesure de la mémoire utilisé
 */
 
 #endif // PROFILER__H
