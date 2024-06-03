@@ -32,7 +32,7 @@ public:
 			mCurrentNode = mCurrentNode->AddChildNode(name);
 		}		
 		mNodesCallStack.push_back(mCurrentNode);
-		return std::make_unique<Timer>(name, *mCurrentNode); 
+		return std::make_unique<Timer>(*mCurrentNode); 
 	}
 	
 	void TimerEndDelegate()
@@ -108,10 +108,12 @@ private :
 };
 
 /*
-SHA256 pour encoder les noms des fonctions, histoire d'avoir des identifiants plus rapide à comparer ?
-Enregistrer les données dans un fichier
+Enregistrer les données dans un fichier plutôt que dans un vector -> éviter de surcharger la ram
 Créer un outil pour visualiser les données sous forme de flame graph
-Ajouter une mesure de la mémoire utilisé
+Ajouter un graphique ayant la durée des frames sur le temps de l'application (visualiser les pics de performances)
+
+SHA256 pour encoder les noms des fonctions, histoire d'avoir des identifiants plus rapide à comparer (pour compter le nombre d'appel de chaque fonctions)?
+Ajouter une mesure de la mémoire utilisée pour les fonctions
 */
 
 #endif // PROFILER__H

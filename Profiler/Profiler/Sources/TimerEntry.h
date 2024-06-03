@@ -2,11 +2,12 @@
 #define TIMERENTRY__H
 
 #include "Definitions.h"
+#include <string>
 
 struct STimerEntry
 {
-	size_t count() const { return mCount; }
-	size_t time() const { return mTime; }
+	FORCEINLINE size_t Count() const { return mCount; }
+	FORCEINLINE size_t Time() const { return mTime; }
 
 	FORCEINLINE void AddCount() { ++mCount; }
 	FORCEINLINE void AddTime(const size_t time) { mTime += time; }

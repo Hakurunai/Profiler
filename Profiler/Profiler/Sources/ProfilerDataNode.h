@@ -2,34 +2,31 @@
 #define PROFILERDATANODE__H
 
 #include <vector>
-#include <string>
 #include "TimerEntry.h"
 
 #include "Definitions.h"
 
 struct SProfilerDataNode
 {
-	static SProfilerDataNode* CreateFirstNode(const std::string name)  
+	static SProfilerDataNode* CreateFirstNode(const char* name)  
 	{
 		auto node = new SProfilerDataNode(name);
 		return node;
 	};
-
 	
-	SProfilerDataNode(SProfilerDataNode* const parent, const std::string name) : mParent(parent), mName(name) {}
+	SProfilerDataNode(SProfilerDataNode* const parent, const char* name) : mParent(parent), mName(name) {}
 	~SProfilerDataNode() = default;
 
-
 	FORCEINLINE SProfilerDataNode* const GetParent() const { return mParent; }
-	FORCEINLINE std::string const GetName() const { return mName; }
+	FORCEINLINE const char* const GetName() const { return mName; }
 
-	SProfilerDataNode* AddChildNode(std::string name)
+	SProfilerDataNode* AddChildNode(const char* name)
 	{
 		//if exist, update call entry
 		for (auto& childNode : mChildNodes)
 		{
 			// TODO : comparing two string is not really efficient, we could hash it to improve that part
-			if (childNode.GetName().compare(name) == 0)
+			if (strcmp(childNode.GetName(), name) == 0)
 			{
 				childNode.mTimerData.AddCount();
 				return &childNode;
@@ -62,11 +59,11 @@ struct SProfilerDataNode
 	STimerEntry mTimerData;
 
 private :
-	SProfilerDataNode(const std::string name) : mName(name) {}
+	SProfilerDataNode(const char* name) : mName(name) {}
 
 	std::vector<SProfilerDataNode> mChildNodes;
 	SProfilerDataNode* mParent{ nullptr };
-	const std::string mName;
+	const char* mName;
 };
 
 #endif // PROFILERDATANODE__H
