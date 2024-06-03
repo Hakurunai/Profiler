@@ -12,7 +12,6 @@ struct SProfilerDataNode
 	static SProfilerDataNode* CreateFirstNode(const std::string name)  
 	{
 		auto node = new SProfilerDataNode(name);
-		node->mTimerData.AddCount();
 		return node;
 	};
 

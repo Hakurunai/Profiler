@@ -9,13 +9,7 @@ struct STimerEntry
 	size_t time() const { return mTime; }
 
 	FORCEINLINE void AddCount() { ++mCount; }
-	FORCEINLINE void AddTiming(const size_t time) { mTime += time; }
-
-	void AddTime(const size_t time)
-	{
-		++mCount;
-		mTime += time;
-	}
+	FORCEINLINE void AddTime(const size_t time) { mTime += time; }
 
 	std::string GetData() const
 	{
@@ -28,7 +22,7 @@ struct STimerEntry
 	}
 
 private:
-	size_t mCount{ 0 };
+	size_t mCount{ 1 };
 	size_t mTime{ 0 };
 };
 

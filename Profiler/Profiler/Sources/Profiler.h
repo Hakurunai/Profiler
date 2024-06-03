@@ -22,7 +22,15 @@ public:
 
 	std::unique_ptr<Timer> StartTimer(const char* name) 
 	{
-		mCurrentNode = mCurrentNode->AddChildNode(name);
+		if (mHeadNode == nullptr) [[unlikely]]
+		{
+				mHeadNode = SProfilerDataNode::CreateFirstNode(name);
+				mCurrentNode = mHeadNode;
+		}
+		else
+		{
+			mCurrentNode = mCurrentNode->AddChildNode(name);
+		}		
 		mNodesCallStack.push_back(mCurrentNode);
 		return std::make_unique<Timer>(name, *mCurrentNode); 
 	}
@@ -35,16 +43,15 @@ public:
 		mCurrentNode = mCurrentNode->GetParent();
 	};
 
-	void StopFrame() 
+	void StopFrame()
 	{
 		++mFrameNumber;
 
 		//TODO : we store datas from one frame then we start another tree node -> we could potentially write our data on a file and clear it
 		mFrameData.push_back(mHeadNode);
-		mHeadNode = SProfilerDataNode::CreateFirstNode("Frame " + std::to_string(mFrameNumber));
-		mCurrentNode = mHeadNode;
+		mHeadNode = nullptr;
+		mCurrentNode = nullptr;
 		mNodesCallStack.clear();
-		mNodesCallStack.push_back(mHeadNode);
 	}
 
 private :
@@ -57,12 +64,13 @@ private :
 	std::vector<SProfilerDataNode*> mNodesCallStack;
 	std::vector<SProfilerDataNode*> mFrameData;
 
+	void ComputeTotalFrameTime()
+	{
+	}
+
 	Profiler() 
 	{
-		mHeadNode = SProfilerDataNode::CreateFirstNode("Frame 1");
-		mCurrentNode = mHeadNode;
 		mNodesCallStack.reserve(8);
-		mNodesCallStack.push_back(mHeadNode);
 		mFrameData.reserve(1000);
 	};
 
