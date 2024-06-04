@@ -14,7 +14,7 @@ struct SProfilerDataNode
 		return node;
 	};
 	
-	SProfilerDataNode(SProfilerDataNode* const parent, const char* name) : mParent(parent), mName(name) {}
+	SProfilerDataNode(SProfilerDataNode* const parent, const char* name) : SProfilerDataNode(name) { mParent = parent; }
 	~SProfilerDataNode() = default;
 
 	FORCEINLINE SProfilerDataNode* const GetParent() const { return mParent; }
@@ -59,11 +59,17 @@ struct SProfilerDataNode
 	STimerEntry mTimerData;
 
 private :
-	SProfilerDataNode(const char* name) : mName(name) {}
+	SProfilerDataNode(const char* name)
+	{
+		//currently we need to copy the content of the char* inside our char* 
+		// -> when initial pointer is destroyed (out of scope) our local data remain valid
+		mName = new char[strlen(name)+1];
+		strcpy_s(mName, strlen(name) +1, name);
+	}
 
 	std::vector<SProfilerDataNode> mChildNodes;
 	SProfilerDataNode* mParent{ nullptr };
-	const char* mName;
+	char* mName;
 };
 
 #endif // PROFILERDATANODE__H

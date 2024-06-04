@@ -2,21 +2,21 @@
 
 void func1()
 {
-    auto t = Profiler::Instance().StartTimer("func1");
-    for (int i = 0; i < 1'000; ++i) {}
+    PROFILER_START_TIMER();
+    for (int i = 0; i < 10'000; ++i) {}
 }
 
 
 void func2()
 {
-    auto t = Profiler::Instance().StartTimer("func2");
+    PROFILER_START_TIMER();
     for (int i = 0; i < 1'000'000; ++i) {}
     func1();
 }
 
 void func3()
 {
-    auto t = Profiler::Instance().StartTimer("func3");
+    PROFILER_START_TIMER();
     for (int i = 0; i < 1'000'000; ++i) {}
     func2();
 }
@@ -27,7 +27,7 @@ int main()
     while (i < 2)
     {
         {
-            auto t = Profiler::Instance().StartTimer("main");
+            PROFILER_START_TIMER();
             for (int i = 0; i < 1'000'000; ++i) {}
 
             func1();
@@ -38,6 +38,6 @@ int main()
             func3();
             ++i;
         }
-        Profiler::Instance().StopFrame();
+        PROFILER_END_FRAME()
     }
 }
