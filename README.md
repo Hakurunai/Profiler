@@ -1,9 +1,8 @@
 # Profiler
 My attempt to create a continuous profiler.
-We are now capable to determine the number of time each function was called
+We are now capable to determine the number of time each function call and the we can saw the callstack too. A frame system is in place.
 
-![TimerEntryClass](https://github.com/Hakurunai/Profiler/assets/167714064/f3d219b6-feb3-4bf7-a6d4-f76df51777ca)
-![ProfilerClass](https://github.com/Hakurunai/Profiler/assets/167714064/cf8f144a-b657-42ea-ba8a-5ced6c5cb35e)
-![TimerClass_H](https://github.com/Hakurunai/Profiler/assets/167714064/0b683f1c-7669-4ca6-8bca-42364e9988f1)
-![TimerClass_CPP](https://github.com/Hakurunai/Profiler/assets/167714064/e3a6f297-5c1a-46a6-8fad-10cbc24c6f77)
-![ProfilerUSAGE](https://github.com/Hakurunai/Profiler/assets/167714064/0c5d8abd-997d-479b-8a1c-78316a3c0c9c)
+![Profiler_V4_UML](https://github.com/Hakurunai/Profiler/assets/167714064/90433075-353f-48c7-a219-4ae562760bc4)
+![FirstTimerMacroDefinitions](https://github.com/Hakurunai/Profiler/assets/167714064/5d0a0e02-7b27-438d-895f-530d37cba874)
+![FirstTimerMacroUsage](https://github.com/Hakurunai/Profiler/assets/167714064/b8787643-c1de-4be5-8a47-3096f53925db)
+![FirstTimerMacroResult](https://github.com/Hakurunai/Profiler/assets/167714064/9bcb7433-608d-479f-940f-810a9b4a5308)
